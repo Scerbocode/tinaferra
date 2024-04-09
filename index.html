@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+  <script defer src="script.js"></script>
+  <title>Cambio Colore Camicia</title>
+</head>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    list-style: none;
+    appearance: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    background: var(--c-bg);
+    color: var(--c-gray-200);
+    overflow-x: hidden;
+    font-size: 0.9rem;
+}
+
+#navbar {
+  transition: opacity 0.5s;
+}
+
+/* -----------RECENSIONI-----------*/
+
+.contbody{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  padding: 0 25px;
+}
+
+.wrapper {
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+}
+
+.wrapper i {
+  height: 50px;
+  width: 50px;
+  background: rgb(37, 103, 58);
+  color: white;
+  line-height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  font-size: 2rem;
+  transform: translateY(-50%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+  display: flex; /* Center the content */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.wrapper i:first-child {
+  left: -50px; /* Adjust the positioning */
+}
+
+.wrapper i:last-child {
+  right: -50px; /* Adjust the positioning */
+}
+
+.wrapper .carousel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% / 3) - 12px);
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: 0;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel.no-transition {
+  scroll-behavior: auto;
+}
+
+.carousel.draggig {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+
+.carousel.draggig .cards {
+  cursor: grab;
+  user-select: none;
+}
+
+.carousel .cards {
+  scroll-snap-align: start;
+  height: 180px;
+  list-style: none;
+  background: var(--bg-color);
+  border-radius: 8px;
+  display: flex;
+  cursor: pointer;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+
+
+.cards:hover {
+ border: 2px solid rgb(37, 103, 58);
+}
+
+.cards .img img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.cards h2 {
+  font-weight: 500;
+  font-size: 1.50rem;
+  margin: 5px 0 1px 0;
+}
+
+
+
+.cards p {
+  color: #000000;
+  font-weight: 800;
+  white-space: nowrap;
+  font-size: clamp(8px, 3vw, 12px); /* Imposta la dimensione del testo tra 16px e 24px, con una crescita proporzionale al 3% della larghezza della viewport */
+
+  text-align: center;
+  padding: 10px 30px;
+}
+
+@media screen and (max-width: 900px) {
+  .wrapper .carousel {
+    grid-auto-columns: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .wrapper .carousel {
+    grid-auto-columns: 100%;
+  }
+}
+
+
+
+.circle {
+  width: 150px; /* Imposta la larghezza dell'immagine */
+  height: 150px; /* Imposta l'altezza dell'immagine */
+  border-radius: 50%; /* Rende l'immagine un cerchio impostando il raggio al 50% della larghezza/altezza */
+  cursor: pointer;
+  object-fit: cover; /* Assicura che l'immagine venga ridimensionata per coprire completamente l'area del cerchio */
+}
+
+#categoryButtons {
+  text-align: center;
+}
+
+#colorButtons {
+  text-align: center;
+}
+
+
+
+img {
+    display: block;
+    width: 100%;
+    object-fit: contain;
+}
+
+#shirtImage {
+  max-width: 80%; /* Assicurati che l'immagine non superi la larghezza del suo contenitore */
+}
+
+
+#shirtImage {
+    max-width: 100%;
+    height: 70vh;
+    cursor: zoom-in;
+  }
+
+  #shirtImage.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8); /* Aggiungi uno sfondo semitrasparente per evidenziare l'effetto fullscreen */
+  cursor: zoom-out; /* Cambia il cursore quando l'immagine è in fullscreen */
+}
+
+  #colorButtons {
+    margin-top: 10px;
+  }
+
+  button {
+    margin-right: 10px;
+  }
+
+  /* Nascondi i pulsanti dei colori inizialmente */
+  .hidden {
+    display: none;
+  }
+
+
+
+  /* Stile per il pulsante selezionato */
+  .selected {
+    border: 2px solid rgb(37, 103, 58);
+  }
+
+  
+.featured {
+    margin-top: 12rem;
+}
+
+.featur_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 20px;
+}
+
+.featured .post_thubail {
+    height: fit-content;
+}
+
+@media screen and (max-width: 600px) {
+    section {
+        margin-top: 2rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .featured {
+        margin-top: 6rem;
+    }
+
+    .featur_container {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .posts_container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.conic {
+    width: 150px;
+    cursor: pointer;
+}
+
+.conic:hover {
+border: 1px solid rgb(37, 103, 58);
+padding: 10px;
+}
+
+.tonic {
+    width: 150px;
+    cursor: pointer;
+    transition: transform 1s;
+}
+
+.tonic:hover {
+border: 1px solid rgb(37, 103, 58);
+transform: scale(1.2);
+}
+
+.post_coll {
+margin-top: 35px;
+}
+
+.contbtn {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+}
+
+.selectflex {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px;
+}
+
+/* Reset dello stile predefinito della select */
+select, input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+  
+}
+
+/* Stile del contenitore della select */
+.select-container {
+  display: inline-block;
+  padding: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+
+
+/* Stile del label */
+label {
+  font-size: 16px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Stile della select */
+select, input {
+    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  width: 200px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+/* Effetto hover sulla select */
+select:hover {
+  border-color: #aaa;
+}
+
+/* Effetto focus sulla select */
+select:focus {
+  border-color: rgb(37, 103, 58);
+}
+
+/* Stile delle opzioni della select */
+select option {
+  padding: 10px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Stile delle opzioni quando selezionate */
+select option:checked {
+  background-color: rgb(37, 103, 58);
+  color: #fff;
+}
+
+.selectflex {
+    margin-bottom: 30px;
+}
+
+
+
+/* Media query per schermi di dimensioni più piccole */
+@media screen and (max-width: 600px) {
+  select, input {
+    width: 100%; /* La select occupa l'intera larghezza del contenitore */
+  }
+
+}
+
+
+
+
+hr {
+    background-color: rgba(173, 169, 169, 0.452);
+    padding: 1px;
+    margin-top: 10px;
+}
+
+.post_info {
+background: #ffffff10;
+box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.1); /* Cambia l'opacità e la dimensione dell'ombra a tuo piacimento */
+color: #000000;
+}
+
+.contbtn {
+margin: 10px 0;
+}
+
+.titleh3 {
+   margin: 15px 0;
+   background-color: rgb(37, 103, 58);
+   color: #fff;
+   border: 1px solid rgb(37, 103, 58);
+   width: 100%;
+}
+
+.descriv {
+  display: inline-block;
+  max-width: 80%;
+  padding: 30px;
+  margin-top: 30px;
+  margin-left: 8%;
+color: #000000;
+}
+
+@media screen and (max-width: 768px) {
+  /* Inserisci qui le regole CSS da applicare quando la larghezza dello schermo è massimo 768px */
+  .descriv {
+    max-width: 100%;
+    margin-left: 20px;
+    margin-top: 0;
+    margin-bottom: 40px;
+    font-size: 14px; /* Esempio di regola CSS per cambiare la dimensione del testo */
+    padding: 5px 20px; /* Esempio di regola CSS per modificare il padding */
+  }
+}
+
+
+.text-sbar {
+  text-decoration: line-through;
+}
+
+/* Definisci l'animazione per far apparire i pulsanti dei colori */
+@keyframes fadeInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Applica l'animazione ai pulsanti dei colori */
+#colorButtons {
+  animation: fadeInFromLeft 0.5s ease forwards;
+}
+
+:root {
+    --c-primary: #010101;
+    --c-primary-light: hsla(0, 0%, 1%, 0.18);
+    --c-primary-var: #000000;
+    --c-red: #da0f3f;
+    --c-red-light: hsl(346, 87%, 46%, 15%);
+    --c-green: #00c476;
+    --c-green-light: hsl(156, 100%, 38%, 15%);
+    --c-gray-900: #040404;
+    --c-gray-700: #080808;
+    --c-gray-300: rgba(242, 242, 254, 0.3);
+    --c-gray-200: rgba(242, 242, 254, 0.7);
+    --c-white: #f2f2fe;
+    --c-bg: #ffffff;
+
+    --transition: all 300ms ease;
+
+    --cont-width-lg: 74%;
+    --cont-width-md: 88%;
+    --form-width: 40%;
+
+    --card-b-radius-1: 0.3rem;
+    --card-b-radius-2: 0.5rem;
+    --card-b-radius-3: 0.8rem;
+    --card-b-radius-4: 2rem;
+    --card-b-radius-5: 5rem;
+}
+
+/*================NAV===================*/
+
+nav {
+    background: white;
+    position: fixed;
+    width: 100vw;
+    height: 12rem;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+nav button {
+    display: none;
+}
+
+.nav_container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra orizzontalmente */
+    flex-direction: column; /* Stack il contenuto verticalmente */
+}
+
+.nav_logo {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 15px; /* Spazio inferiore tra il logo e gli elementi della lista */
+
+}
+
+.nav_items {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px 0 10px;
+    justify-content: center; /* Centra orizzontalmente */
+    gap: 0;
+    z-index: 99999999;
+    bottom: 0;
+    position: absolute;
+}
+
+.nav_items li a {
+  padding: 5px 80px;
+  text-decoration: none;
+  color: black;
+  font-weight: 200;
+}
+
+.nav_items li a:hover{
+    width: fit-content;
+    background-color: rgb(37, 103, 58);
+    color: #fff;
+}
+
+.attiv {
+  background-color: rgb(37, 103, 58);
+    color: #f2f2fe;
+}
+
+.nav_items_due {
+  display: flex;
+    align-items: center;
+    padding: 5px 10px 10px 10px;
+    justify-content: center; /* Centra orizzontalmente */
+    gap: 0;
+    z-index: 99999999;
+    bottom: 0;
+    position: absolute;
+    left: 17%;
+}
+
+.nav_items_due li a {
+  padding: 5px 8px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.nav_items_tre {
+  display: flex;
+    align-items: center;
+    padding: 5px 10px 10px 10px;
+    justify-content: center; /* Centra orizzontalmente */
+    gap: 0;
+    z-index: 99999999;
+    bottom: 0;
+    position: absolute;
+    right: 20%;
+    margin-bottom: 2px;
+}
+
+.nav_items_tre li a {
+  padding: 10px 30px;
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: rgb(37, 103, 58);
+    color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+
+
+.nav_logo_container {
+    position: relative;
+    width: 78px; /* larghezza del cerchio */
+    height: 78px; /* altezza del cerchio */
+    border-radius: 50%; /* rendi il contenitore un cerchio */
+
+}
+
+.nav_logo_container img {
+    position: absolute;
+    top: 29%; /* posiziona l'immagine al centro verticale del contenitore */
+    left: 50%; /* posiziona l'immagine al centro orizzontale del contenitore */
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 90px;
+    padding: 5px 5px 0 5px;
+    z-index: 555555555;
+}
+
+
+.container-title{
+height: 50px;
+
+}
+
+.titoloz{
+  position: relative;
+    top: 26%; /* posiziona l'immagine al centro verticale del contenitore */
+    left: 50%; /* posiziona l'immagine al centro orizzontale del contenitore */
+    transform: translate(-50%, -50%);
+    width: 100%;
+    padding: 5px 5px 0 5px;
+}
+
+.sopra {
+position: absolute;
+width: 100%;
+height: 50px;
+background: rgb(26, 26, 26);
+}
+
+.navbar-hidden {
+  opacity: 0;
+  transition: opacity 0.3s ease; /* Aggiungi una transizione di 0.3 secondi per l'opacità */
+}
+
+.navbar-visible {
+  opacity: 1;
+}
+
+.btnConf{
+  background-color: rgb(37, 103, 58);
+  margin-top: 20px;
+  padding: 15px;
+  color:#fff;
+  cursor: pointer;
+}
+
+.btnConf:hover{
+font-weight: bold;
+}
+
+@media screen and (max-width: 1117px) {
+  .nav_items li a {
+  padding: 5px 20px;
+  text-decoration: none;
+  color: black;
+  font-weight: 200;
+}
+
+.nav_items_due {
+ 
+    left: 4%;
+}
+
+.nav_items_tre {
+ 
+ right: 4%;
+}
+}
+
+@media screen and (max-width: 750px) {
+  .nav_items li a {
+    padding: 5px 20px;
+
+}
+
+.nav_items_due {
+  display: none;
+
+}
+
+.nav_items_tre {
+ 
+  display: none;
+
+}
+}
+
+@media screen and (max-width: 750px) {
+  .nav_items li a {
+    display: none;
+ 
+}
+
+}
+
+@media screen and (max-width: 450px) {
+ 
+    .wrapper {
+  max-width: 300px;
+  width: 100%;
+  position: relative;
+}
+
+.post_info {
+  width: 300px;
+}
+
+}
+
+</style>
+<body>
+    <nav id="navbar">
+    <div class="sopra">
+      <ul class="nav_items_due">
+        <li><a href="https://www.tinaferracamiceria.com/chi-siamo">Chi siamo</a></li>
+        <li><a href="https://www.tinaferracamiceria.com/punto-vendita">Punto vendita</a></li>
+        <li><a href="https://www.tinaferracamiceria.com/news">News</a></li>
+        <li><a href="https://www.tinaferracamiceria.com/contatti">Contatti</a></li>
+    </ul>
+    <ul class="nav_items_tre">
+      <li><a href="https://www.tinaferracamiceria.com/camicia-su-misura">Camicia su misura</a></li>
+  </ul>
+    </div>
+        <div class="container nav_container">
+        <div class="nav_logo_container">
+            <a href="" class="nav_logo"><img src="https://static.wixstatic.com/media/caf98e_0cf8eb4961214fe983d910b9213929b8~mv2.png/v1/crop/x_364,y_0,w_249,h_200/fill/w_101,h_81,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo%20Tina%20Ferr%C3%A0.png" alt="logo" style="width: 120px;"></a>
+        </div>
+        <div class="container-title" ><img class="titoloz" src="https://static.wixstatic.com/media/caf98e_90a7cbb4b1f14563a078cb0f2fdb33c5~mv2.jpg/v1/crop/x_0,y_103,w_496,h_111/fill/w_384,h_86,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Logo%20Tina%20Ferr%C3%A0%20Completo.jpg" alt=""> </div>
+            <ul class="nav_items">
+                <li><a href="https://www.tinaferracamiceria.com/uomo">Uomo</a></li>
+                <li><a href="https://www.tinaferracamiceria.com/donna">Donna</a></li>
+                <li><a href="https://www.tinaferracamiceria.com/kids">Kids</a></li>
+                <li><a href="https://www.tinaferracamiceria.com/accessori">Accessori</a></li>
+                 <li><a href="#" class="attiv" style="color: #fff;">Camicia Su Misura</a></li>  
+            </ul>
+
+            <button id="open_nav_btn"><i class="uil uil-ellipsis-v"></i></button>
+            <button id="close_nav_btn"><i class="uil uil-multiply"></i></button>
+        </div>
+    </nav>
+
+    <section class="featured">
+        <div class="container featur_container" id="tutte_le_selezioni">
+          <figure class="post_thubail">
+            <h1 style="font-weight: 200;  margin-left: 12%; font-size: 30px; color: #000000;">Camicia su Misura Online</h1>  <br>
+
+            <img id="shirtImage" src="https://static.wixstatic.com/media/b53d1e_9c7b85b9a4cb451a844507eab3fc059d~mv2.jpg" alt="Camicia" class="shirt-image">
+
+            <figcaption class="descriv">
+             <span style="font-size: 13px;">SKU: sumisura01</span> <br>
+             <p style="font-size: 25px; margin-top: 10px;">
+              <span id="prezzo">60,0</span>
+              <span>€</span>
+          </p>
+          
+              <span style="color: #686767; text-decoration: underline;">Spedizione  9,90 €</span> <br>
+                    Paga in 3 rate da 23,30 EUR senza interessi. TAEG
+                    0%.
+                    <img style="width: 80px;" src="https://wixmp-6613fa290e8c1ac70a0297b6.wixmp.com/payment-methods/bnpl/svg/1e88d1ea-c684-4311-bcd3-de14b78151df-light.svg?v2024-03-08" alt="Paypal">
+                    <span style="text-decoration: underline;">Scopri di più</span> 
+                    <br>
+                    <hr>
+                    o 3 pagamenti senza interesse di 23.30 €
+                    con
+                    <img style="width: 50px;" src="https://wixmp-6613fa290e8c1ac70a0297b6.wixmp.com/payment-methods/bnpl/svg/058fcf63-d344-41c5-bd23-b7a16b7eda78-light.svg?v2024-03-08" alt="">
+                    <span style="text-decoration: underline;">Scopri di più</span> <br>
+              
+              
+              
+              <h3 style="margin-top: 50px;">CREA LA TUA CAMICIA SU MISURA ONLINE IN "2" SEMPLICI PASSAGGI:</h3><br>
+
+                     <hr>
+
+              1 - Prepara la tua migliore camicia: manderemo un corriere a prenderla e ci servirà come campione per le misure.<br>
+              
+               
+              
+              2 - Scegli tutte le opzioni disponibili: Collo, Polso, Davanti, Dietro Taschino.<br>
+              
+   
+              <hr>
+              Quando la tua nuova Camicia su Misura Tina Ferrà sarà pronta il corriere te la consegnerà direttamente al tuo domicilio riconsegnandoti anche la camicia campione che avevamo ritirato</figcaption>
+          </figure>
+            <div class="post_info" id="categoryButtons">
+                <h3 class="titleh3">Tessuti</h3>
+          <!-- Bottoni dei tessuti -->
+<button onclick="changeCategory('rigate')" id="rigateButton"><img src="https://static.wixstatic.com/media/b53d1e_4a37b69f1ccc4c24835b4508d914c75d~mv2.jpg" alt="img" class="conic"><h3>Rigate</h3></button>
+<button onclick="changeCategory('tintaunita')" id="tintaunitaButton"><img src="https://static.wixstatic.com/media/b53d1e_88a7f2043f064123a40038303d122a4a~mv2.jpg" alt="img" class="conic"><h3>Tinta Unita</h3></button>
+<button onclick="changeCategory('fantasia')" id="fantasiaButton"><img src="https://static.wixstatic.com/media/b53d1e_8164e64048894d5bb484e9dbb05633a1~mv2.jpg" alt="img" class="conic"><h3>Fantasia</h3></button>
+<button onclick="changeCategory('quadri')" id="quadriButton"><img src="https://static.wixstatic.com/media/b53d1e_94c6bab0c5b14904b2bfe14d6b314f8d~mv2.jpg" alt="img" class="conic"><h3>Quadri</h3></button>
+              <div class="post_author">
+<!-- Contenitore per la sezione dei colori -->
+<div id="colorButtons" class="hidden">
+  <h3 class="titleh3">Colori</h3>
+  <div class="contbody">
+      <div class="wrapper">
+          <i id="left" class="fa-solid fa-angle-left"></i>
+          <ul class="carousel">
+              <!-- Qui verranno inseriti dinamicamente i bottoni dei colori -->
+          </ul>
+          <i id="right" class="fa-solid fa-angle-right"></i>
+      </div>
+  </div>
+</div>
+
+              </div>
+    
+
+                  <div class="post_coll" id="sceltaCollo">
+                      <h3 class="titleh3">Scelta Collo</h3>
+                          <button class="selectableButton" onclick="selectButton(this)"><img src="https://static.wixstatic.com/media/6e2fda_3a2cac0d68b449e0b87407685de87963~mv2.jpg" alt="img" class="conic"><h3>Button Down</h3></button>
+                          <button class="selectableButton" onclick="selectButton(this)"><img src="https://static.wixstatic.com/media/6e2fda_354ad4fe9fe94b1c9752c516aff0bece~mv2.jpg" alt="img" class="conic"><h3>Coreano</h3></button>
+                          <button class="selectableButton" onclick="selectButton(this)"><img src="https://static.wixstatic.com/media/b53d1e_3eab9831fc1a4cdd8a30cab752f79ac3~mv2.jpg" alt="img" class="conic"><h3>Diplomatico</h3></button>
+                          <button class="selectableButton" onclick="selectButton(this)"><img src="https://static.wixstatic.com/media/b53d1e_b52df5243367442185a0c74d511f915f~mv2.jpg" alt="img" class="conic"><h3>Italiano</h3></button>
+                          <button class="selectableButton" onclick="selectButton(this)"><img src="https://static.wixstatic.com/media/b53d1e_21d78f8fac6041ac8ea95f2f61a0d82a~mv2.jpg" alt="img" class="conic"><h3>Francese più aperto</h3></button>
+                  </div>
+                  <div class="post_coll" id="sceltaPolso">
+                      <h3 class="titleh3">Scelta Polso</h3>
+                          <button class="selectableButtonTwo" onclick="selectButtonTwo(this)"><img src="https://static.wixstatic.com/media/b53d1e_3899047fe89547edb59626082a765b89~mv2.jpg" alt="img" class="conic"><h3>Tondo 1 bottone</h3></button>
+                          <button class="selectableButtonTwo" onclick="selectButtonTwo(this)"><img src="https://static.wixstatic.com/media/b53d1e_4bb1955621644808ab8ce05a15a1a86a~mv2.jpg" alt="img" class="conic"><h3>Tondo 2 bottoni</h3></button>
+                          <button class="selectableButtonTwo" onclick="selectButtonTwo(this)"><img src="https://static.wixstatic.com/media/b53d1e_5e8b3bf60aae422d84a1251263efbeac~mv2.jpg" alt="img" class="conic"><h3>Smussato 1 bottone</h3></button>
+                          <button class="selectableButtonTwo" onclick="selectButtonTwo(this)"><img src="https://static.wixstatic.com/media/b53d1e_7d0fafe682b84011b087e19f8f35e669~mv2.jpg" alt="img" class="conic"><h3>Smussato 2 bottoni</h3></button>
+                  </div>
+              <div class="post_coll">
+                
+                <h3 class="titleh3">Dettagli</h3>
+                
+                <!-- Add the first select element -->
+                <div class="select-container">
+                <label for="select1">Davanti:</label>
+                <select id="select1" name="select1">
+                    <option value="0" >seleziona</option>
+                    <option value="corpeto">Coperto</option>
+                    <option value="lisci">Liscio</option>
+                    <option value="pizzicato">Pizzicato</option>
+                </select>
+                </div>
+                <!-- Add the second select element -->
+                <div class="select-container">
+                <label for="select2">Dietro:</label>
+                <select id="select2" name="select2">
+                    <option value="0" >seleziona</option>
+                    <option value="con">Con Pinces</option>
+                    <option value="senza">Senza Pinces</option>
+                </select>
+                </div>
+                <!-- Add the third select element -->
+                <div class="select-container">
+                <label for="select3">Taschino:</label>
+                <select id="select3" name="select3">
+                    <option value="0" >seleziona</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
+              </div>
+                             <!-- Add the third select element -->
+                             <div class="select-container">
+                              <label for="select4">Taglia:</label>
+                              <select id="select4" name="select4">
+                                  <option value="0" >seleziona</option>
+                                  <option value="37">37</option>
+                                  <option value="38">38</option>
+                                  <option value="39">39</option>
+                                  <option value="40">40</option>
+                                  <option value="41">41</option>
+                                  <option value="42">42</option>
+                                  <option value="43">43</option>
+                                  <option value="44">44</option>
+                                  <option value="45">45</option>
+                                  <option value="46">46 (+€10)</option>
+                                  <option value="47">47 (+€10)</option>
+                                  <option value="48">48 (+€10)</option>
+                                  <option value="49">49 (+€10)</option>
+                              </select>
+                            </div>
+              <hr>
+              <div class="select-container">
+                <label  style="line-height: 0.8; cursor: text; margin-top: 18px;" for="select4"><small style="font-style: italic;">Inserisci le INIZIALI  (facoltativo)<br>"posizione, carattere e colore" <br></small></label>
+                <input  style="cursor: text;"  type="text" id="select6" name="select6" value="" placeholder="P.S/Polso/Rosso/Arial"><br>
+              </div>
+              <div class="select-container">
+                <label for="select5">Quantità:</label>
+                <input  style="cursor: text; width: 25%;"  type="number" id="select5" name="select5" value="1"><br>
+              </div>
+            </div>
+
+            <button type="button" onclick="inviaEmail()" class="btnConf" >Conferma Scelta</button>
+
+          </div>
+
+        </div>
+
+    </section>
+
+    <script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
+
+    
+
+  <script>
+  var prevScrollpos = window.pageYOffset;
+
+  window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) {
+    document.getElementById("navbar").style.opacity = "1";
+    document.getElementById("navbar").style.pointerEvents = "auto";
+  } else {
+    document.getElementById("navbar").style.opacity = "0";
+    document.getElementById("navbar").style.pointerEvents = "none";
+  }
+  prevScrollpos = currentScrollPos;
+}
+// Aggiungi un gestore per il cambiamento della taglia selezionata
+const prezzoOriginale = 60; // Prezzo base
+let tagliaCorrente = 0; // Variabile per memorizzare la taglia selezionata
+let quantitaCorrente = 1; // Variabile per memorizzare la quantità selezionata
+
+// Funzione per calcolare il prezzo totale in base alla taglia e alla quantità
+function calcolaPrezzoTotale(taglia, quantita) {
+    let prezzoTotale;
+
+    if (taglia >= 46 && taglia <= 49) {
+        // Se la taglia selezionata è tra 46 e 49, il prezzo totale è il prezzo aggiornato più la quantità
+        prezzoTotale = (prezzoOriginale + 10) * quantita;
+    } else if (taglia < 46) {
+        // Se la taglia selezionata è inferiore a 46, il prezzo totale è il prezzo base più la quantità
+        prezzoTotale = prezzoOriginale * quantita;
+    }
+
+    return prezzoTotale;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const selectTaglia = document.getElementById('select4'); // ID della select per la taglia
+    const prezzo = document.getElementById('prezzo');
+
+    selectTaglia.addEventListener('change', function(event) {
+        console.log("Evento cambio taglia chiamato.");
+        const selectedValue = parseInt(event.target.value);
+        console.log("Taglia selezionata:", selectedValue);
+        tagliaCorrente = selectedValue;
+
+        // Calcola il prezzo totale in base alla taglia e alla quantità corrente
+        const prezzoTotale = calcolaPrezzoTotale(tagliaCorrente, quantitaCorrente);
+        console.log("Prezzo totale:", prezzoTotale);
+
+        // Aggiorna il prezzo con il nuovo valore
+        prezzo.textContent = prezzoTotale.toString();
+    });
+
+    const quantInput = document.getElementById('select5'); // ID della select per la quantità
+    quantInput.addEventListener('input', function(event) {
+        console.log("Evento input quantità chiamato.");
+        quantitaCorrente = parseInt(event.target.value);
+        console.log("Quantità selezionata:", quantitaCorrente);
+
+        // Calcola il prezzo totale in base alla taglia e alla quantità corrente
+        const prezzoTotale = calcolaPrezzoTotale(tagliaCorrente, quantitaCorrente);
+        console.log("Prezzo totale:", prezzoTotale);
+
+        // Aggiorna il prezzo con il nuovo valore
+        prezzo.textContent = prezzoTotale.toString();
+    });
+});
+
+
+
+
+    var currentCategory = 'rigate'; // Categoria predefinita
+
+    function changeCategory(category) {
+  currentCategory = category;
+  highlightSelectedButton(category); // Aggiunge la classe "selected" al pulsante selezionato
+  
+  var colorButtonsDiv = document.getElementById('colorButtons');
+  colorButtonsDiv.classList.remove('hidden'); // Rimuovi la classe "hidden" per mostrare i pulsanti dei colori
+  
+  // Aggiungi la classe "showButtons" per applicare l'effetto di transizione ai pulsanti dei colori
+  setTimeout(function() {
+    colorButtonsDiv.classList.add('showButtons');
+  }, 50); // Aggiungi un ritardo minimo per consentire che l'elemento sia aggiornato prima di applicare la transizione
+  
+  showColorButtons();
+}
+
+function showColorButtons() {
+    var colorButtonsDiv = document.getElementById('colorButtons');
+    var carousel = colorButtonsDiv.querySelector('.carousel');
+
+    // Cancella eventuali bottoni di colori preesistenti
+    carousel.innerHTML = '';
+
+    var colors = getColorsForCategory(currentCategory);
+    colors.forEach(function(colorObject) {
+        var li = document.createElement('li');
+        li.classList.add('cards');
+        
+        var imgDiv = document.createElement('div');
+        imgDiv.classList.add('img'); // Aggiungi la classe "img" al div
+        var img = document.createElement('img');
+        img.src = colorObject.image;
+        img.alt = colorObject.color;
+        img.draggable = false;
+        imgDiv.appendChild(img); // Aggiungi l'elemento img al div
+        li.appendChild(imgDiv); // Aggiungi il div al li
+
+        var p = document.createElement('p');
+        p.textContent = colorObject.color;
+        li.appendChild(p);
+
+        carousel.appendChild(li);
+
+        li.addEventListener('click', function() {
+            // Rimuovi la selezione da tutti gli altri colori
+            var allColorButtons = carousel.querySelectorAll('li.cards');
+            allColorButtons.forEach(function(button) {
+                button.classList.remove('selected');
+            });
+
+            // Aggiungi la selezione solo al colore cliccato
+            li.classList.add('selected');
+
+            // Cambia il colore solo dopo aver rimosso tutte le selezioni precedenti
+            changeColor(currentCategory, colorObject.color);
+        });
+    });
+
+    colorButtonsDiv.classList.remove('hidden');
+}
+
+
+function highlightSelectedColorButton(selectedButton) {
+  // Rimuovi la classe "selected" da tutti i pulsanti dei colori
+  var colorButtons = document.querySelectorAll('#colorButtons button');
+  colorButtons.forEach(function(button) {
+    button.classList.remove('selected');
+  });
+
+  // Aggiungi la classe "selected" al pulsante colore corrente
+  selectedButton.classList.add('selected');
+}
+
+
+    function getColorsForCategory(category) {
+      switch (category) {
+        case 'rigate':
+          return [
+          { color: 'Arancione Larga-RA1', image: 'https://static.wixstatic.com/media/b53d1e_0d60bd45bde04b05b588d4358e4e71ec~mv2.jpg' },
+        { color: 'Tuechese Larga-RT1', image: 'https://static.wixstatic.com/media/b53d1e_36e7253457894bbb81799c819e3ba316~mv2.jpg' },
+        { color: 'Lilla-RL1', image: 'https://static.wixstatic.com/media/b53d1e_4bb97b0696f349c2a54e948615e5edb2~mv2.jpg' },
+        { color: 'Modena-RM1', image: 'https://static.wixstatic.com/media/b53d1e_fd65d1e23d634cc3a9b7dd41683018be~mv2.jpg' },
+          { color: 'Beige Larga-RB1', image: 'https://static.wixstatic.com/media/b53d1e_1a142bfd5d1a4dc78eff8d3a39c85648~mv2.jpg' },
+        { color: 'Verde-RV1', image: 'https://static.wixstatic.com/media/b53d1e_9d477c7591e2453d816ec282bac6094b~mv2.jpg' },
+        { color: 'Verde Larga-RV2', image: 'https://static.wixstatic.com/media/b53d1e_ed4323b6f4f141748f3272ef919bbb96~mv2.jpg' },
+        { color: 'Bastoncino Rosso-RB2', image: 'https://static.wixstatic.com/media/b53d1e_f41b8cb24b7d4935b0cec97c7059357d~mv2.jpg' },
+        { color: 'Giallo Largo-RG1', image: 'https://static.wixstatic.com/media/b53d1e_fb14d7671b2b4532a4fac3c3e9a664a4~mv2.jpg' },
+        { color: 'Rosa Larga-RR1', image: 'https://static.wixstatic.com/media/b53d1e_3c1d67c219e1431c99bbf1151769eaa1~mv2.jpg' },
+        { color: 'Cielo-RC1', image: 'https://static.wixstatic.com/media/b53d1e_5a5f4c033ad146a893252d004c0dc04b~mv2.png' },
+        { color: 'Cielo Medium-RC2', image: 'https://static.wixstatic.com/media/b53d1e_e0bf0e20ec844ffa9be3405587b2e60e~mv2.jpg' },
+        { color: 'Azzurro Larga-RA2', image: 'https://static.wixstatic.com/media/b53d1e_ad25b1c637f14238ad9109c0751965d5~mv2.jpg' },
+        { color: 'Bastoncino Cielo-RB3', image: 'https://static.wixstatic.com/media/b53d1e_bd87d11f636748f6bd3e892768d699d1~mv2.jpg' },
+        { color: 'Milano-RM2', image: 'https://static.wixstatic.com/media/b53d1e_0b72ed4569a34f94ad849743764a30a4~mv2.jpg' },
+        { color: 'Bastoncino Blu-RB4', image: 'https://static.wixstatic.com/media/b53d1e_a7a23d42b03045e393e6d44e0cedb8d0~mv2.jpg' },
+        { color: 'Plebiscito-RP1', image: 'https://static.wixstatic.com/media/b53d1e_0b4e1302fa644215bba1a14b37fa0a05~mv2.jpg' },
+        { color: 'Blu-RB5', image: 'https://static.wixstatic.com/media/b53d1e_d5e18e9ee5a8410fbc2c6f0591c3cdbe~mv2.jpg' },
+        { color: 'Rosso Larga-RR2', image: 'https://static.wixstatic.com/media/b53d1e_1f27405c556e4150b2cfbd342e0644a8~mv2.jpg' },
+        { color: 'Small Line-RS1', image: 'https://static.wixstatic.com/media/b53d1e_c432ad879b12461fa6c43d48ec7f7cc1~mv2.jpg' },
+        { color: 'Medium Line-RM3', image: 'https://static.wixstatic.com/media/b53d1e_69d3fac333754735b0721e192df2d535~mv2.jpg' },
+        { color: 'Capodimonte-RC3', image: 'https://static.wixstatic.com/media/b53d1e_ac211943db06492f8e71d00115f319f3~mv2.jpg' },
+        { color: 'Rigata Larga-RL2', image: 'https://static.wixstatic.com/media/b53d1e_dce3669a30d2499bb17abcd597b4fefa~mv2.jpg' }
+
+          ];
+        case 'tintaunita':
+          return [
+          { color: 'Rosso-TUR1', image: 'https://static.wixstatic.com/media/b53d1e_456e3fe78a19482aba5e61b3b9e1f5b4~mv2.jpg' },
+        { color: 'Azzurro-TUA1', image: 'https://static.wixstatic.com/media/b53d1e_b972eaf00fc24ee2ae22ef0b1f917b35~mv2.jpg' },
+        { color: 'Blu-TUB2', image: 'https://static.wixstatic.com/media/b53d1e_ac99af274bf64b21b483ce3e1984a978~mv2.jpg' },
+        { color: 'Moro-TUM1', image: 'https://static.wixstatic.com/media/b53d1e_08a8467e3a20486092b76280f37bb2f5~mv2.jpg' },
+        { color: 'Tortora-TUT1', image: 'https://static.wixstatic.com/media/b53d1e_c41df90cb2ef4b8e980ed2617fae4a27~mv2.jpg' },
+        { color: 'Verde Militare-TUV1', image: 'https://static.wixstatic.com/media/b53d1e_b9cee7bf89a741328c5f4e585163d082~mv2.jpg' },
+        { color: 'Verde Bottiglia-TUV2', image: 'https://static.wixstatic.com/media/b53d1e_5b05076fb03e43839d83b5196c36130f~mv2.jpg' },
+        { color: 'Indaco-TUI1', image: 'https://static.wixstatic.com/media/b53d1e_d4b7a40de62741f1918452025c49a52d~mv2.jpg' },
+        { color: 'Nero-TUN1', image: 'https://static.wixstatic.com/media/b53d1e_828a1a406bc046de9bb88b86986acc43~mv2.webp' },
+        { color: 'Giallo-TUG2', image: 'https://static.wixstatic.com/media/b53d1e_22de0e6333cc4f3580c4c3596c254961~mv2.jpg' },
+        { color: 'Cobalto-TUC2', image: 'https://static.wixstatic.com/media/b53d1e_1443782f89574a59a72d88eeb95cb90f~mv2.jpg' },
+        { color: 'Rosa-TUR2', image: 'https://static.wixstatic.com/media/b53d1e_5f27410d886a473680a72ca208ea1a04~mv2.jpg' },
+        { color: 'Bianco-TUB3', image: 'https://static.wixstatic.com/media/b53d1e_9c7b85b9a4cb451a844507eab3fc059d~mv2.jpg' },
+        { color: 'Cielo-TUC1', image: 'https://static.wixstatic.com/media/b53d1e_6a227788ece94f1cbfc98cb5f6730e90~mv2.jpg' },
+        { color: 'Indaco-TUI2', image: 'https://static.wixstatic.com/media/b53d1e_6efdc0537f1540d0af869c03e839c1cc~mv2.jpg' },
+        { color: 'Griggio-TUG1', image: 'https://static.wixstatic.com/media/b53d1e_4f43afa6c0514d509849bb34d475fb9a~mv2.jpg' },
+        { color: 'Blu Scuro-TUB2', image: 'https://static.wixstatic.com/media/b53d1e_2e8af58966164c629b4174f66d932cc6~mv2.jpg' },
+        { color: 'Beige-TUB1', image: 'https://static.wixstatic.com/media/b53d1e_6c33f22c76c147efb5d53bff402973ec~mv2.jpg' },
+        { color: 'Sabbia-TUS1', image: 'https://static.wixstatic.com/media/b53d1e_1f6a6713d7304237bad6bfd99e60c772~mv2.jpg' }
+
+          ];
+        case 'fantasia':
+          return [
+          { color: 'Mondrian-FM1', image: 'https://static.wixstatic.com/media/b53d1e_ef86e296ccb74302a8fa067d22d46f57~mv2.jpg' },
+        { color: 'Firenze-FF1', image: 'https://static.wixstatic.com/media/b53d1e_3af147e7e891479aa07cf1b67cc99004~mv2.jpg' },
+        { color: 'Iberis-FI1', image: 'https://static.wixstatic.com/media/b53d1e_2caa3bbf28fc499bbb20ea2d6ed7f800~mv2.jpg' },
+        { color: 'Sorrento-FS1', image: 'https://static.wixstatic.com/media/b53d1e_0321308ff8ed437aafa708e69735bd3f~mv2.jpg' },
+        { color: 'Pois Celeste-FP1', image: 'https://static.wixstatic.com/media/b53d1e_8288889b919041238c5a7fd32dae3c94~mv2.jpg' },
+        { color: 'Cairo-FI2', image: 'https://static.wixstatic.com/media/b53d1e_94b78d1bc1ac4f8abb2bb46d07892850~mv2.jpg' },
+        { color: 'Luxor-FL1', image: 'https://static.wixstatic.com/media/b53d1e_45ae5ad08a8744d1a054da915a3eeddb~mv2.jpg' },
+        { color: 'Origami BLu-FO2', image: 'https://static.wixstatic.com/media/b53d1e_144f1b7100154976ab87d86b9b0608c8~mv2.jpg' },
+        { color: 'Cagliari-FC1', image: 'https://static.wixstatic.com/media/b53d1e_ea0dbb18794e42b9a3f20d3cafd8743d~mv2.jpg' },
+        { color: 'Fiordaliso-FF2', image: 'https://static.wixstatic.com/media/b53d1e_f5d812d64c69441f82f9261b6b5f1e8f~mv2.jpg' },
+        { color: 'Origami Rosa-FO1', image: 'https://static.wixstatic.com/media/b53d1e_c9b16c41775d4248aa71845883bbbe3c~mv2.jpg' }
+        
+          ];
+        case 'quadri':
+          return [
+          { color: 'Quadrettino Cielo-QC1', image: 'https://static.wixstatic.com/media/b53d1e_f9a8603591f746c18b3056c8ad494503~mv2.webp' },
+        { color: 'Quadretti Cielo-QC2', image: 'https://static.wixstatic.com/media/b53d1e_db4a6e789f85465e85fe07858833237e~mv2.webp' },
+        { color: 'Quadrettino Blu-QB1 ', image: 'https://static.wixstatic.com/media/b53d1e_8db9d9decfb14ae195a6446e4e9a1b23~mv2.jpg' }
+          ];
+        default:
+          return [];
+      }
+    }
+
+    function changeColor(category, color) {
+  var shirtImage = document.getElementById('shirtImage');
+  var colorObject = getColorsForCategory(category).find(c => c.color === color);
+  if (colorObject) {
+    shirtImage.src = colorObject.image; // Imposta l'immagine corrispondente
+  }
+}
+
+    function highlightSelectedButton(category) {
+      // Rimuovi la classe "selected" da tutti i pulsanti delle categorie
+      var categoryButtons = document.querySelectorAll('#categoryButtons button');
+      categoryButtons.forEach(function(button) {
+        button.classList.remove('selected');
+      });
+
+      // Aggiungi la classe "selected" al pulsante della categoria corrente
+      var selectedButton = document.getElementById(category + 'Button');
+      selectedButton.classList.add('selected');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+  var shirtImage = document.getElementById('shirtImage');
+
+  shirtImage.addEventListener('click', function() {
+    toggleFullscreen(shirtImage);
+  });
+
+  function toggleFullscreen(element) {
+    element.classList.toggle('fullscreen');
+
+    // Aggiungi o rimuovi l'evento di esci dal fullscreen
+    if (element.classList.contains('fullscreen')) {
+      document.addEventListener('keydown', exitFullscreenOnEsc);
+    } else {
+      document.removeEventListener('keydown', exitFullscreenOnEsc);
+    }
+  }
+
+  function exitFullscreenOnEsc(event) {
+    if (event.key === 'Escape') {
+      var shirtImage = document.getElementById('shirtImage');
+      shirtImage.classList.remove('fullscreen');
+      document.removeEventListener('keydown', exitFullscreenOnEsc);
+    }
+  }
+});
+
+
+function selectButton(button) {
+        clearSelection('.selectableButton');
+        button.classList.add('selected');
+    }
+
+    function selectButtonTwo(button) {
+        clearSelection('.selectableButtonTwo');
+        button.classList.add('selected');
+    }
+
+    function clearSelection(selector) {
+        var allButtons = document.querySelectorAll(selector);
+        allButtons.forEach(function (btn) {
+            btn.classList.remove('selected');
+        });
+    }
+  </script>
+<script>
+  function generateRandomId() {
+  return Math.random().toString(36).substr(2, 9);
+}
+  // Funzione per inviare i dati a Formspree
+  function inviaEmail() {
+    const selectedColor = document.querySelector('#colorButtons .selected').innerText.trim();
+    const selectedCategory = document.querySelector('#categoryButtons .selected').innerText.trim();
+    const selectedSize = document.querySelector('#select4').value.trim();
+    const selectedCollar = document.querySelector('#sceltaCollo .selected h3').innerText;
+    const selectedCuff = document.querySelector('#sceltaPolso .selected h3').innerText;
+    const selectedFront = document.querySelector('#select1').value.trim();
+    const selectedBack = document.querySelector('#select2').value.trim();
+    const selectedPocket = document.querySelector('#select3').value.trim();
+    const selectedQuantity = document.querySelector('#select5').value.trim();
+    const selectedInitials = document.querySelector('#select6').value.trim(); // Assuming you add an ID to the initials input field
+  // Genera un ID casuale
+  const randomId = generateRandomId();
+
+  // Assegna l'ID generato all'elemento che contiene tutte le selezioni
+  const tutteLeSelezioni = document.getElementById('tutte_le_selezioni');
+  tutteLeSelezioni.id = randomId;
+    // Costruisci il messaggio dell'email con tutte le informazioni selezionate
+    const message = `
+      ID: ${randomId}
+      Tessuto: ${selectedCategory},
+      Colore: ${selectedColor},
+      Scelta collo: ${selectedCollar},
+      Scelta Polso: ${selectedCuff},
+      Davanti: ${selectedFront},
+      Dietro: ${selectedBack},
+      Taschino: ${selectedPocket},
+      Taglia: ${selectedSize},
+      Quantità: ${selectedQuantity},
+      Iniziali ricamo: ${selectedInitials}
+    `;
+
+    // Costruisci l'URL per l'invio dei dati a Formspree
+    const formSpreeURL = "https://formspree.io/f/mleqogzr"; // Sostituisci con il tuo form ID
+    const formData = {
+      email: "email@example.com", // Inserisci qui l'email del destinatario
+      message: message,
+    };
+    
+    // Esegui la richiesta POST per inviare i dati a Formspree
+    fetch(formSpreeURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  })
+  .then(response => {
+  if (response.ok) {
+    // Mostra un popup di conferma con un segno di spunta e l'ID generato
+    Swal.fire({
+      icon: 'success',
+      title: 'Scelta Confermata!',
+      html: `Conserva il tuo codice ID: ${randomId}`,
+      confirmButtonText: 'Vai al Carrello',
+      confirmButtonColor: '#25673a', // Cambia il colore del pulsante OK
+    }).then(() => {
+      // Dopo che l'utente ha cliccato "OK", reindirizza l'utente verso un'altra pagina
+      window.location.href = 'https://www.tinaferracamiceria.com/product-page/camicia-su-misura-online';
+    });
+  } else {
+    // Se la richiesta fallisce, mostra un popup di errore
+    Swal.fire({
+      icon: 'error',
+      title: 'Errore',
+      text: "Si è verificato un errore durante l'invio. Riprova più tardi",
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#25673a', // Cambia il colore del pulsante OK
+    });
+  }
+})
+  .catch(error => {
+    // Se si verifica un errore nella richiesta, mostra un popup di errore
+    console.error('Si è verificato un errore:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Errore',
+      text: "Si è verificato un errore durante l'invio.",
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#25673a', // Cambia il colore del pulsante OK
+
+    });
+  });
+}
+
+
+// MODAL CAROUSEL
+const wrapper = document.querySelector(".wrapper");
+const carousel = document.querySelector(".carousel");
+const arrowBtns = document.querySelectorAll(".wrapper i");
+const firstCardWidth = 300; 
+
+arrowBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    let nextElement = btn.id === "left" ? carousel.scrollLeft - firstCardWidth : carousel.scrollLeft + firstCardWidth;
+    if (nextElement >= 0 && nextElement <= carousel.scrollWidth - carousel.offsetWidth) {
+      carousel.scrollLeft = nextElement;
+    }
+  });
+});
+
+</script>
+
+</body>
+</html>
